@@ -1,0 +1,10 @@
+{
+  "name": "postgresDb",
+  "connector": "postgresql",
+  "url": "",
+  "host": "localhost",
+  "port": 5432,
+  "user": "postgres",
+  "password": "Shivam123",
+  "database": "lb4Starter"
+}
