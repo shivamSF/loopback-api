@@ -1,30 +1,12 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  repository,
-  Where,
-} from '@loopback/repository';
-import {
-  del,
-  get,
-  getModelSchemaRef,
-  getWhereSchemaFor,
-  param,
-  patch,
-  post,
-  requestBody,
-} from '@loopback/rest';
-import {
-  Customers,
-  Users,
-} from '../models';
+import {Count, CountSchema, Filter, repository, Where} from '@loopback/repository';
+import {del, get, getModelSchemaRef, getWhereSchemaFor, param, patch, post, requestBody} from '@loopback/rest';
+import {Customers, Users} from '../models';
 import {CustomersRepository} from '../repositories';
 
 export class CustomersUsersController {
   constructor(
     @repository(CustomersRepository) protected customersRepository: CustomersRepository,
-  ) { }
+  ) {}
 
   @get('/customers/{id}/users', {
     responses: {
@@ -42,7 +24,10 @@ export class CustomersUsersController {
     @param.path.number('id') id: number,
     @param.query.object('filter') filter?: Filter<Users>,
   ): Promise<Users[]> {
-    return this.customersRepository.users(id).find(filter);
+    return this.customersRepository.users(id).find({
+      include:
+        [{relation: 'roles'}]
+    });
   }
 
   @post('/customers/{id}/users', {

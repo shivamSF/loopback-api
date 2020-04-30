@@ -1,9 +1,5 @@
+import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 import {LoopbackApplication} from '../..';
-import {
-  createRestAppClient,
-  givenHttpServerConfig,
-  Client,
-} from '@loopback/testlab';
 
 export async function setupApplication(): Promise<AppWithClient> {
   const restConfig = givenHttpServerConfig({
@@ -18,7 +14,16 @@ export async function setupApplication(): Promise<AppWithClient> {
     rest: restConfig,
   });
 
+
   await app.boot();
+
+  app.bind('datasources.config.postgresDb').to({
+    name: 'postgresDb',
+    connector: 'memory',
+  });
+
+
+
   await app.start();
 
   const client = createRestAppClient(app);
